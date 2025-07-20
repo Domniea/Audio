@@ -12,6 +12,8 @@ import {
 import { useRoute } from '@react-navigation/native';
 import { formatDuration } from '../utils/utils';
 import TrackPlayer, { State, usePlaybackState } from 'react-native-track-player';
+import { useTrack } from '../context/TrackContext.js'
+import { playTrack } from '../audio/playbackManager'
 import { useAudioControls } from '../audio/useAudioControls.js';
 import NavButton from '../components/NavButton';
 import AlbumArtwork from '../components/AlbumArtwork.jsx';
@@ -22,6 +24,8 @@ import { useThemeColors, ThemeToggle } from '../components/ThemeToggle.jsx';
 
 export default function AudioPlayerScreen({ navigation }) {
   const route = useRoute();
+  
+  const {setCurrentTrack, currentTrack } = useTrack()
 
   const fallbackTrack = {
     id: 'fallback',
@@ -32,7 +36,9 @@ export default function AudioPlayerScreen({ navigation }) {
     url: '',
   };
 
-  const { track = fallbackTrack } = route.params || {};
+  // const { track = fallbackTrack } = route.params || {};
+
+  const track = currentTrack || fallbackTrack;
   const { title, artist, artwork, duration } = track;
   
   const [isPlaying, setIsPlaying] = useState(false);
@@ -58,19 +64,54 @@ export default function AudioPlayerScreen({ navigation }) {
   //Theme
   const { bg, secondaryText, iconColor } = useThemeColors()
 
-  useEffect(() => {
-    const loadTrack = async () => {
-      try {
-        await TrackPlayer.reset();
-        await TrackPlayer.add(track);
-        await TrackPlayer.play();
-      } catch (error) {
-        console.warn('Failed to load track:', error);
-      }
-    };
 
-    loadTrack();
-  }, [track]);
+
+
+
+// useEffect(() => {
+//   // const load = async () => {
+//   //   const success = await playTrack(track);
+//   //   if (success) setIsPlaying(true);
+//   // };
+
+//   // load();
+//     const loadTrack = async () => {
+//     const currentTrackId = await TrackPlayer.getActiveTrackIndex();
+//     console.log('TEST', currentTrackId)
+//       console.log('TRACKID', track.id)
+//     if (currentTrackId === Number(currentTrack.id + track.id)) {
+//       console.log('Track already loaded, skipping reset');
+//       return;
+//     }
+
+//     try {
+//       await TrackPlayer.reset();
+//       await TrackPlayer.add(track);
+//       await TrackPlayer.play();
+//       setIsPlaying(true);
+//     } catch (error) {
+//       console.warn('Failed to load track:', error);
+//     }
+//   };
+
+//   loadTrack();
+
+// }, [track]);
+
+useEffect(() => {
+  const loadCurrentTrack = async () => {
+    try {
+      const id = await TrackPlayer.getActiveTrackIndex();
+      const nowPlaying = await TrackPlayer.getTrack(id);
+      setCurrentTrack(nowPlaying); // if you're using local state
+    } catch (err) {
+      console.warn('Error getting current track', err);
+    }
+  };
+
+  loadCurrentTrack();
+}, []);
+
 
   return (
     <Box flex={1} bg={bg} p={4} justifyContent="center" alignItems="center">

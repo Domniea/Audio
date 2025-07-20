@@ -8,27 +8,52 @@ import {
   View,
 } from 'native-base';
 import { tracks } from '../data/tracks';
+import { useTrack} from '../context/TrackContext';
 import { formatDuration } from '../utils/utils';
-import NavButton from '../components/NavButton';
 import { useThemeColors } from '../components/ThemeToggle';
+import NavButton from '../components/NavButton';
+import { onTrackPress } from '../audio/playbackManager';
 
 function AudioListScreen({ navigation }) {
   const { bg, secondaryText } = useThemeColors();
 
-  const onTrackPress = (track) => {
-    try {
-      navigation.navigate('AudioPlayer', { track });
-      console.log('Successfully selected track');
-    } catch (error) {
-      console.log('Failed to select song', error);
-    }
-  };
+  const { setCurrentTrack } = useTrack()
+
+
+  // const onTrackPress = (track) => {
+  //   try {
+  //     setCurrentTrack(track)
+  //     navigation.navigate('AudioPlayer', { track });
+  //     console.log('Successfully selected track');
+  //   } catch (error) {
+  //     console.log('Failed to select song', error);
+  //   }
+  // };
+
+//   const onTrackPress = async (track) => {
+//   try {
+//     const queue = await TrackPlayer.getQueue();
+//     const alreadyQueued = queue.find(q => q.id === track.id);
+
+//     if (!alreadyQueued) {
+//       await TrackPlayer.reset();
+//       await TrackPlayer.add(track);
+//     } else {
+//       await TrackPlayer.skipToTrack(track.id);
+//     }
+
+//     await TrackPlayer.play();
+//     navigation.navigate('AudioPlayer'); // No need to pass track anymore
+//   } catch (error) {
+//     console.warn('Track load error:', error);
+//   }
+// };
 
   const trackListing = ({ item }) => {
     const { title, artist, artwork, duration } = item;
 
     return (
-      <Pressable m={2} p={2} onPress={() => onTrackPress(item)}>
+      <Pressable m={2} p={2} onPress={() => onTrackPress(item, navigation)}>
         <HStack space={3} alignItems="center" p={4}>
           <Box
             style={{

@@ -1,20 +1,14 @@
-import { NavigationContainer } from '@react-navigation/native';
-import createStackNavigator from '@react-navigation/stack';
-import AudioPlayerScreen from './src/screens/AudioPlayerScreen';
-import AudioListScreen from './src/screens/AudioListScreen';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import AudioPlayerScreen from '../screens/AudioPlayerScreen';
+import AudioListScreen from '../screens/AudioListScreen';
 
+const Stack = createNativeStackNavigator();
 
-const Stack = createStackNavigator();
-
-const MainStackNavigator = () => {
-    return (
-        <NavigationContainer>
-            <Stack.Navigator initialRouteName="TrackList">
-                <Stack.Screen name="TrackList" component={AudioListScreen} />
-                <Stack.Screen name="AudioPlayer" component={AudioPlayerScreen} />
-            </Stack.Navigator>
-        </NavigationContainer>
-    );
+export default function MainStackNavigator() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="AudioList" component={AudioListScreen} />
+      <Stack.Screen name="AudioPlayer" component={AudioPlayerScreen} />
+    </Stack.Navigator>
+  );
 }
-
-export default MainStackNavigator;

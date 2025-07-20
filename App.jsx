@@ -1,28 +1,33 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AudioPlayerScreen from './src/screens/AudioPlayerScreen';
-import TrackList from './src/screens/AudioListScreen';
+// import AudioPlayerScreen from './src/screens/AudioPlayerScreen';
+// import TrackList from './src/screens/AudioListScreen';
 import { NativeBaseProvider } from 'native-base';
+import theme from './src/theme/theme'
 import { setupPlayer } from './src/audio/setupPlayer';
-
-const Stack = createNativeStackNavigator();
+import MainStackNavigator from './src/navigation/MainStackNavigator';
+import { handleAppState } from './src/audio/playbackManager';
+import { TrackProvider } from './src/context/TrackContext';
 
 export default function App() {
 
 useEffect(() => {
   setupPlayer()
+  handleAppState()
 }, []);
 
   return (
-    <NativeBaseProvider>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="AudioList" component={TrackList} />
-          <Stack.Screen name="AudioPlayer" component={AudioPlayerScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </NativeBaseProvider>
+    <TrackProvider>
+      <NativeBaseProvider theme={theme}>
+        <NavigationContainer>
+          {/* <Stack.Navigator>
+            <Stack.Screen name="AudioList" component={TrackList} />
+            <Stack.Screen name="AudioPlayer" component={AudioPlayerScreen} />
+          </Stack.Navigator> */}
+          <MainStackNavigator/>
+        </NavigationContainer>
+      </NativeBaseProvider>
+    </TrackProvider>
   );
 }
