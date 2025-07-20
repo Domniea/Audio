@@ -1,7 +1,7 @@
 import { Box, View } from 'native-base';
 import { ImageBackground } from 'react-native';
 
-const AlbumArtwork = ({track}) => {
+const AlbumArtwork = ({track, mb}) => {
     console.log()
     return ( 
         <Box
@@ -12,6 +12,7 @@ const AlbumArtwork = ({track}) => {
               shadowRadius: 12,
               elevation: 8,
             }}
+            m={mb}
           >
             <ImageBackground
               source={{ uri: track.artwork }}
