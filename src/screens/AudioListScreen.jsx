@@ -1,7 +1,5 @@
-import React from 'react';
 import { FlatList, ImageBackground } from 'react-native';
 import {
-  Button,
   Box,
   Text,
   VStack,
@@ -12,41 +10,26 @@ import {
 import { tracks } from '../data/tracks';
 import { formatDuration } from '../utils/utils';
 import NavButton from '../components/NavButton';
+import { useThemeColors } from '../components/ThemeToggle';
 
+function AudioListScreen({ navigation }) {
+  const { bg, secondaryText } = useThemeColors();
 
-
-function AudioListScreen({navigation}) {
-    // const navigation = useNavigation();
-
-    const onTrackPress = (track) => {
-        try {
-            navigation.navigate('AudioPlayer', { track }); 
-            console.log(`Successfully selected track`)
-        } catch (error) {
-            console.log('Failed to select song', error)
-        }
+  const onTrackPress = (track) => {
+    try {
+      navigation.navigate('AudioPlayer', { track });
+      console.log('Successfully selected track');
+    } catch (error) {
+      console.log('Failed to select song', error);
     }
-    
+  };
+
   const trackListing = ({ item }) => {
-    const { 
-        title, 
-        artist, 
-        artwork, 
-        duration 
-    } = item;
+    const { title, artist, artwork, duration } = item;
 
     return (
       <Pressable m={2} p={2} onPress={() => onTrackPress(item)}>
-        <HStack
-          // bg={'gray.100'}
-          space={3}
-          alignItems={'center'}
-          p={4}
-        >
-
-          {/*
-            Box below is the Album artwork container > Artwork > Center of vinyl container > Vinyl center
-          */}
+        <HStack space={3} alignItems="center" p={4}>
           <Box
             style={{
               shadowColor: 'red',
@@ -66,22 +49,19 @@ function AudioListScreen({navigation}) {
               <View
                 h={150}
                 w={150}
-                justifyContent={'center'}
-                alignItems={'center'}
+                justifyContent="center"
+                alignItems="center"
                 shadow={15}
               >
-                <View h={35} w={35} bg={'white'} rounded={100}>
-                  {}
-                </View>
+                <View h={35} w={35} bg={bg} rounded={100} />
               </View>
             </ImageBackground>
           </Box>
 
-            {/* Artist Details */}
           <VStack>
             <Text bold>{title}</Text>
-            <Text>{artist}</Text>
-            <Text fontSize="xs" color="gray.400">
+            <Text color={secondaryText}>{artist}</Text>
+            <Text fontSize="xs" color={secondaryText}>
               {formatDuration(duration)}
             </Text>
           </VStack>
@@ -90,30 +70,18 @@ function AudioListScreen({navigation}) {
     );
   };
 
-
   return (
-    <Box flex={1} bg={'white'} justifyContent={'center'} alignItems={'center'}>
-      <Box flex={1} p={'15'}>
+    <Box flex={1} bg={bg} justifyContent="center" alignItems="center">
+      <Box flex={1} p={4}>
         <FlatList
           data={tracks}
           renderItem={trackListing}
-          keyExtractor={item => item.id}
-          contentContainerStyle={{ alignItems: 'left' }}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={{ alignItems: 'flex-start' }}
         />
       </Box>
-      {/* <Box bg={'red.100'} justifyContent={'center'} alignItems={'center'}> */}
-        {/* <Button
-            mb={'7'}
-            pb={'2.5'}
-            pt={'1.5'}
-            variant={'ghost'}
-            onPress={() => navigation.navigate('AudioPlayer',)}
 
-        >
-            Go to Player
-        </Button> */}
-         <NavButton message={'Back To Player'} route={'AudioPlayer'}/>
-      {/* </Box> */}
+      <NavButton message="Back To Player" route="AudioPlayer" />
     </Box>
   );
 }

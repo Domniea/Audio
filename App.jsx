@@ -7,33 +7,9 @@ import TrackList from './src/screens/AudioListScreen';
 import { NativeBaseProvider } from 'native-base';
 import { setupPlayer } from './src/audio/setupPlayer';
 
-
-import TrackPlayer, { State, useProgress, usePlaybackState, getPlaybackState } from 'react-native-track-player';
-
-
-
-
-
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-
-
-const state = usePlaybackState();
-
-// console.log('raw playbackState:', state);
-// console.log('is object:', typeof state === 'object');
-// console.log('state.state:', state?.state);
-// console.log('State enum values:', State);
-
-
-
-
-const progress = useProgress()
-
-
-
-
 
 useEffect(() => {
   setupPlayer()

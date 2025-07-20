@@ -1,8 +1,11 @@
 import { Box, View } from 'native-base';
 import { ImageBackground } from 'react-native';
+import { useThemeColors } from './ThemeToggle';
 
 const AlbumArtwork = ({track, mb}) => {
-    console.log()
+
+  const { bg } = useThemeColors()
+
     return ( 
         <Box
             style={{
@@ -12,7 +15,7 @@ const AlbumArtwork = ({track, mb}) => {
               shadowRadius: 12,
               elevation: 8,
             }}
-            m={mb}
+            m={mb.toString()}
           >
             <ImageBackground
               source={{ uri: track.artwork }}
@@ -28,7 +31,7 @@ const AlbumArtwork = ({track, mb}) => {
                 alignItems={'center'}
                 shadow={15}
               >
-                <View h={35} w={35} bg={'white'} rounded={100}>
+                <View h={35} w={35} bg={bg} rounded={100}>
                   {}
                 </View>
               </View>
