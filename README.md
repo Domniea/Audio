@@ -6,12 +6,12 @@ A cross-platform React Native audio player built with NativeBase and react-nativ
 
 ## Features
 
+- Play from remote (URL) audiofiles
 - Play / Pause / Stop audio
 - Seek with slider
 - Skip forward/backward 15 seconds
 - Track progress and duration
-- Remote audio file playback
-- Auto-pause on app background
+- Handle app state transitions (pause on background)
 - Light & dark theme toggle (via drawer)
 - Playback speed control (0.75x, 1x, 1.5x, 2x)
 
