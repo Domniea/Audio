@@ -1,14 +1,6 @@
 import { FlatList, ImageBackground } from 'react-native';
-import {
-  Box,
-  Text,
-  VStack,
-  HStack,
-  Pressable,
-  View,
-} from 'native-base';
+import { Box, Text, VStack, HStack, Pressable, View } from 'native-base';
 import { tracks } from '../data/tracks';
-import { useTrack} from '../context/TrackContext';
 import { formatDuration } from '../utils/utils';
 import { useThemeColors } from '../components/ThemeToggle';
 import NavButton from '../components/NavButton';
@@ -16,8 +8,6 @@ import { onTrackPress } from '../audio/playbackManager';
 
 function AudioListScreen({ navigation }) {
   const { bg, secondaryText } = useThemeColors();
-
-  const { setCurrentTrack } = useTrack()
 
   const trackListing = ({ item }) => {
     const { title, artist, artwork, duration } = item;
@@ -71,19 +61,10 @@ function AudioListScreen({ navigation }) {
         <FlatList
           data={tracks}
           renderItem={trackListing}
-          keyExtractor={(item) => item.id}
+          keyExtractor={item => item.id}
           contentContainerStyle={{ alignItems: 'flex-start' }}
         />
       </Box>
-            {/* <Button
-            mb={'7'}
-            pb={'2.5'}
-            pt={'1.5'}
-            variant={'ghost'}
-            onPress={() => navigation.navigate('AudioPlayer')}
-        >
-            test
-        </Button> */}
       <NavButton message="Back To Player" route="AudioPlayer" />
     </Box>
   );

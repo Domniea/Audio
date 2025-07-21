@@ -2,7 +2,8 @@
 import TrackPlayer from 'react-native-track-player';
 import { AppState } from 'react-native';
 
-export const playTrack = async (track) => {
+// Playing track from player
+export const playTrack = async track => {
   if (!track?.url) {
     console.warn('No track loaded, skipping player setup');
     return;
@@ -18,6 +19,7 @@ export const playTrack = async (track) => {
   }
 };
 
+// On track select add to Que
 export const onTrackPress = async (track, navigation) => {
   try {
     const queue = await TrackPlayer.getQueue();
@@ -33,17 +35,18 @@ export const onTrackPress = async (track, navigation) => {
     await TrackPlayer.play();
 
     try {
-  navigation.navigate('AudioPlayer');
-} catch (error) {
-  console.error('Navigation error:', error);
-} // No need to pass track anymore
+      navigation.navigate('AudioPlayer');
+    } catch (error) {
+      console.error('Navigation error:', error);
+    } // No need to pass track anymore
   } catch (error) {
     console.warn('Track load error:', error);
   }
 };
 
+// Handles pause on background functionality
 export const handleAppState = () => {
-  AppState.addEventListener('change', async (state) => {
+  AppState.addEventListener('change', async state => {
     if (state === 'background') {
       try {
         await TrackPlayer.pause();

@@ -4,13 +4,14 @@ import TrackPlayer from 'react-native-track-player';
 export const setupPlayer = async () => {
   try {
     await TrackPlayer.setupPlayer();
-    await TrackPlayer.stop()
+    await TrackPlayer.stop();
     console.log('Track player setup complete');
   } catch (error) {
     console.warn('Track player setup FAILED', error);
   }
 };
 
+// Stop playing on hot-reload...still needs work
 export const stopAudioOnLoad = async () => {
   try {
     await TrackPlayer.stop();

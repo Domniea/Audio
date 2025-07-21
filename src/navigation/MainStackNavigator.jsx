@@ -6,9 +6,7 @@ const Stack = createNativeStackNavigator();
 
 export default function MainStackNavigator() {
   return (
-    <Stack.Navigator
-      screenOptions={{ headerShown: false }}
-    >
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="AudioList" component={AudioListScreen} />
       <Stack.Screen name="AudioPlayer" component={AudioPlayerScreen} />
     </Stack.Navigator>

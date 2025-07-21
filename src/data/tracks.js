@@ -3,6 +3,14 @@ import TrackPlayer from 'react-native-track-player';
 // src/data/tracks.ts
 export const tracks = [
     {
+    id: 'sample-1',
+    title: 'Acoustic Breeze',
+    artist: 'Benjamin Tissot',
+    duration: 215,
+    artwork: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d',
+    url: 'https://www.bensound.com/bensound-music/bensound-acousticbreeze.mp3',
+  },
+  {
     id: 'soundhelix-1',
     title: 'SoundHelix Song 1',
     artist: 'SoundHelix',
@@ -19,7 +27,6 @@ export const tracks = [
     url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
   },
 ];
-
 
 export const addTracks = async () => {
   try {

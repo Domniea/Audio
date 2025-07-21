@@ -1,10 +1,10 @@
 import { useColorModeValue, useColorMode } from 'native-base';
 import { Button } from 'native-base';
 export const useThemeColors = () => {
+  // Light and dark variables
   const bg = useColorModeValue('white', 'gray.900');
   const secondaryText = useColorModeValue('gray.400', 'gray.300');
   const iconColor = useColorModeValue('primary.300', 'primary.50');
-  
 
   return { bg, secondaryText, iconColor };
 };
@@ -14,7 +14,7 @@ export const ThemeToggle = () => {
 
   return (
     <Button m={1} onPress={toggleColorMode} variant={'subtle'}>
-     Toggle Theme
+      Toggle Theme
     </Button>
   );
 };

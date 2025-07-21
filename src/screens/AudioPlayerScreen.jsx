@@ -9,20 +9,19 @@ import {
   useColorModeValue,
   Icon,
 } from 'native-base';
-import { useRoute } from '@react-navigation/native';
 import { formatDuration } from '../utils/utils';
-import TrackPlayer, { State, usePlaybackState } from 'react-native-track-player';
-import { useTrack } from '../context/TrackContext.js'
+import TrackPlayer, { usePlaybackState } from 'react-native-track-player';
+import { useTrack } from '../context/TrackContext.js';
 import { useAudioControls } from '../audio/useAudioControls.js';
 import NavButton from '../components/NavButton';
 import AlbumArtwork from '../components/AlbumArtwork.jsx';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import PlaybackSpeedSelector from '../components/PlaybackSpeedSelector.jsx';
-import { useThemeColors, ThemeToggle } from '../components/ThemeToggle.jsx';
+import { useThemeColors } from '../components/ThemeToggle.jsx';
 
-export default function AudioPlayerScreen({navigation}) {
-  
-  const {setCurrentTrack, currentTrack } = useTrack()
+export default function AudioPlayerScreen({ navigation }) {
+  // Track implementaion, destructuring, ect
+  const { setCurrentTrack, currentTrack } = useTrack();
 
   const fallbackTrack = {
     id: 'fallback',
@@ -34,9 +33,9 @@ export default function AudioPlayerScreen({navigation}) {
   };
 
   const track = currentTrack || fallbackTrack;
-  const { title, artist,duration } = track;
-  
-  const [isPlaying, setIsPlaying] = useState(false);
+  const { title, artist, duration } = track;
+
+  // Track playback and scrubbing
   const playbackState = usePlaybackState();
 
   const { seekTo, progress } = useAudioControls();
@@ -45,10 +44,8 @@ export default function AudioPlayerScreen({navigation}) {
     try {
       if (playbackState.state === 'playing') {
         await TrackPlayer.pause();
-        setIsPlaying(false);
       } else if (playbackState.state === 'paused' || playbackState === 'none') {
         await TrackPlayer.play();
-        setIsPlaying(true);
       }
     } catch (error) {
       console.warn('Playback toggle failed', error);
@@ -56,22 +53,21 @@ export default function AudioPlayerScreen({navigation}) {
   };
 
   //Theme
-  const { bg, secondaryText, iconColor } = useThemeColors()
+  const { bg, secondaryText, iconColor } = useThemeColors();
 
-useEffect(() => {
-  const loadCurrentTrack = async () => {
-    try {
-      const id = await TrackPlayer.getActiveTrackIndex();
-      const nowPlaying = await TrackPlayer.getTrack(id);
-      setCurrentTrack(nowPlaying); // if you're using local state
-    } catch (err) {
-      console.warn('Error getting current track', err);
-    }
-  };
+  useEffect(() => {
+    const loadCurrentTrack = async () => {
+      try {
+        const id = await TrackPlayer.getActiveTrackIndex();
+        const nowPlaying = await TrackPlayer.getTrack(id);
+        setCurrentTrack(nowPlaying); // if you're using local state
+      } catch (err) {
+        console.warn('Error getting current track', err);
+      }
+    };
 
-  loadCurrentTrack();
-}, []);
-
+    loadCurrentTrack();
+  }, []);
 
   return (
     <Box flex={1} bg={bg} p={4} justifyContent="center" alignItems="center">
@@ -100,21 +96,35 @@ useEffect(() => {
         mb={4}
       >
         <Slider.Track bg={'purple.100'}>
-          <Slider.FilledTrack bg={'blue.200'}/>
-        </Slider.Track >
-        <Slider.Thumb bg={'blue.500'}/>
-      </Slider >
+          <Slider.FilledTrack bg={'blue.200'} />
+        </Slider.Track>
+        <Slider.Thumb bg={'blue.500'} />
+      </Slider>
 
       <HStack space={6} alignItems="center" justifyContent="center">
-        <Button variant="ghost" onPress={() => seekTo(Math.max(progress.position - 15, 0))}>
+        <Button
+          variant="ghost"
+          onPress={() => seekTo(Math.max(progress.position - 15, 0))}
+        >
           <Text color={iconColor}>-15s</Text>
         </Button>
 
         <Button variant="ghost" onPress={togglePlayback}>
-          {
-            playbackState.state === 'paused' ? <Icon as={Ionicons} name="pause" size={'5xl'} color={iconColor}></Icon> :
-            <Icon as={Ionicons} name="play-outline" size="5xl" color={iconColor} />
-          }
+          {playbackState.state === 'paused' ? (
+            <Icon
+              as={Ionicons}
+              name="pause"
+              size={'5xl'}
+              color={iconColor}
+            ></Icon>
+          ) : (
+            <Icon
+              as={Ionicons}
+              name="play-outline"
+              size="5xl"
+              color={iconColor}
+            />
+          )}
         </Button>
 
         <Button variant="ghost" onPress={() => seekTo(progress.position + 15)}>
