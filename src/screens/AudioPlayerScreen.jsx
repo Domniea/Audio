@@ -13,7 +13,6 @@ import { useRoute } from '@react-navigation/native';
 import { formatDuration } from '../utils/utils';
 import TrackPlayer, { State, usePlaybackState } from 'react-native-track-player';
 import { useTrack } from '../context/TrackContext.js'
-import { playTrack } from '../audio/playbackManager'
 import { useAudioControls } from '../audio/useAudioControls.js';
 import NavButton from '../components/NavButton';
 import AlbumArtwork from '../components/AlbumArtwork.jsx';
@@ -21,9 +20,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import PlaybackSpeedSelector from '../components/PlaybackSpeedSelector.jsx';
 import { useThemeColors, ThemeToggle } from '../components/ThemeToggle.jsx';
 
-
-export default function AudioPlayerScreen({ navigation }) {
-  const route = useRoute();
+export default function AudioPlayerScreen({navigation}) {
   
   const {setCurrentTrack, currentTrack } = useTrack()
 
@@ -36,15 +33,12 @@ export default function AudioPlayerScreen({ navigation }) {
     url: '',
   };
 
-  // const { track = fallbackTrack } = route.params || {};
-
   const track = currentTrack || fallbackTrack;
-  const { title, artist, artwork, duration } = track;
+  const { title, artist,duration } = track;
   
   const [isPlaying, setIsPlaying] = useState(false);
   const playbackState = usePlaybackState();
 
-  const [playbackSpeed, setPlaybackSpeed] = useState('1.0');
   const { seekTo, progress } = useAudioControls();
 
   const togglePlayback = async () => {
@@ -63,40 +57,6 @@ export default function AudioPlayerScreen({ navigation }) {
 
   //Theme
   const { bg, secondaryText, iconColor } = useThemeColors()
-
-
-
-
-
-// useEffect(() => {
-//   // const load = async () => {
-//   //   const success = await playTrack(track);
-//   //   if (success) setIsPlaying(true);
-//   // };
-
-//   // load();
-//     const loadTrack = async () => {
-//     const currentTrackId = await TrackPlayer.getActiveTrackIndex();
-//     console.log('TEST', currentTrackId)
-//       console.log('TRACKID', track.id)
-//     if (currentTrackId === Number(currentTrack.id + track.id)) {
-//       console.log('Track already loaded, skipping reset');
-//       return;
-//     }
-
-//     try {
-//       await TrackPlayer.reset();
-//       await TrackPlayer.add(track);
-//       await TrackPlayer.play();
-//       setIsPlaying(true);
-//     } catch (error) {
-//       console.warn('Failed to load track:', error);
-//     }
-//   };
-
-//   loadTrack();
-
-// }, [track]);
 
 useEffect(() => {
   const loadCurrentTrack = async () => {
@@ -139,11 +99,11 @@ useEffect(() => {
         onChange={seekTo}
         mb={4}
       >
-        <Slider.Track>
-          <Slider.FilledTrack />
-        </Slider.Track>
-        <Slider.Thumb />
-      </Slider>
+        <Slider.Track bg={'purple.100'}>
+          <Slider.FilledTrack bg={'blue.200'}/>
+        </Slider.Track >
+        <Slider.Thumb bg={'blue.500'}/>
+      </Slider >
 
       <HStack space={6} alignItems="center" justifyContent="center">
         <Button variant="ghost" onPress={() => seekTo(Math.max(progress.position - 15, 0))}>
@@ -151,7 +111,10 @@ useEffect(() => {
         </Button>
 
         <Button variant="ghost" onPress={togglePlayback}>
-          <Icon as={Ionicons} name="play-outline" size="5xl" color={iconColor} />
+          {
+            playbackState.state === 'paused' ? <Icon as={Ionicons} name="pause" size={'5xl'} color={iconColor}></Icon> :
+            <Icon as={Ionicons} name="play-outline" size="5xl" color={iconColor} />
+          }
         </Button>
 
         <Button variant="ghost" onPress={() => seekTo(progress.position + 15)}>
@@ -163,7 +126,6 @@ useEffect(() => {
 
       <Box mt={6}>
         <NavButton message={'Tracklist'} route={'AudioList'} />
-        <ThemeToggle />
       </Box>
     </Box>
   );

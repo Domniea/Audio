@@ -19,36 +19,6 @@ function AudioListScreen({ navigation }) {
 
   const { setCurrentTrack } = useTrack()
 
-
-  // const onTrackPress = (track) => {
-  //   try {
-  //     setCurrentTrack(track)
-  //     navigation.navigate('AudioPlayer', { track });
-  //     console.log('Successfully selected track');
-  //   } catch (error) {
-  //     console.log('Failed to select song', error);
-  //   }
-  // };
-
-//   const onTrackPress = async (track) => {
-//   try {
-//     const queue = await TrackPlayer.getQueue();
-//     const alreadyQueued = queue.find(q => q.id === track.id);
-
-//     if (!alreadyQueued) {
-//       await TrackPlayer.reset();
-//       await TrackPlayer.add(track);
-//     } else {
-//       await TrackPlayer.skipToTrack(track.id);
-//     }
-
-//     await TrackPlayer.play();
-//     navigation.navigate('AudioPlayer'); // No need to pass track anymore
-//   } catch (error) {
-//     console.warn('Track load error:', error);
-//   }
-// };
-
   const trackListing = ({ item }) => {
     const { title, artist, artwork, duration } = item;
 
@@ -105,7 +75,15 @@ function AudioListScreen({ navigation }) {
           contentContainerStyle={{ alignItems: 'flex-start' }}
         />
       </Box>
-
+            {/* <Button
+            mb={'7'}
+            pb={'2.5'}
+            pt={'1.5'}
+            variant={'ghost'}
+            onPress={() => navigation.navigate('AudioPlayer')}
+        >
+            test
+        </Button> */}
       <NavButton message="Back To Player" route="AudioPlayer" />
     </Box>
   );

@@ -9,7 +9,7 @@ const theme = extendTheme({
   config,
   colors: {
     primary: {
-      50: '#E5E9FF',
+      50: '#00d7fcff',
       100: '#B2BDFF',
       200: '#8D9EFF',
       300: '#617CFF',

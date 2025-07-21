@@ -10,10 +10,11 @@ const NavButton = ({ message, route }) => {
             pb={'2.5'}
             pt={'1.5'}
             variant={'ghost'}
+            
             onPress={() => navigation.navigate(route)}
         >
             {message}
-            </Button>
+        </Button>
      );
 }
  

@@ -16,7 +16,7 @@ const PlaybackSpeedSelector = () => {
   };
 
   return (
-    <Box w="48" maxW="300">
+    <Box w="48" maxW="300" mt={'5'}>
       <Select
         selectedValue={speed}
         minWidth="200"
