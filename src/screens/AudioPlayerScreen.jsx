@@ -113,17 +113,17 @@ export default function AudioPlayerScreen({ navigation }) {
           {playbackState.state === 'paused' ? (
             <Icon
               as={Ionicons}
-              name="pause"
-              size={'5xl'}
-              color={iconColor}
-            ></Icon>
-          ) : (
-            <Icon
-              as={Ionicons}
               name="play-outline"
               size="5xl"
               color={iconColor}
             />
+          ) : (
+              <Icon
+              as={Ionicons}
+              name="pause"
+              size={'5xl'}
+              color={iconColor}
+            ></Icon>
           )}
         </Button>
 
